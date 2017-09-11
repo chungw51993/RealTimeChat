@@ -17,6 +17,9 @@ module.exports = {
       where: {
         name: room
       },
+      order: [
+        [model.message, 'createdAt', 'ASC']
+      ],
       include: {
         model: model.message,
         include: {

@@ -5,7 +5,7 @@ const pusher = require('../pusher');
 
 const User = require('../db/controller/user');
 
-const allUsers = [];
+let allUsers = [];
 
 module.exports = (passport) => {
   router.get('/', helper.isAuth, (req, res) => {

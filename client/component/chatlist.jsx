@@ -3,13 +3,15 @@ import ChatlistItem from './userlist-item.jsx';
 
 const Chatlist = (props) => (
   <div>
+    <div className="chatwindow">
     {
       props.messages.map((message, i) =>
         <div key={i}>{message.User.username}: {message.text}</div>
       )
     }
-    <form onSubmit={props.handleNewMessage}>
-      <input id="message" placeholder="Your Message Here" />
+    </div>
+    <form id="messageForm" className="messageForm" onSubmit={props.handleNewMessage}>
+      <input className="message" id="message" placeholder="Your Message Here" />
       <input type="submit" value="Submit" />
     </form>
   </div>

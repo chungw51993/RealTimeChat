@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const helper = require('../helper');
+const pusher = require('../pusher');
 
 const Room = require('../db/controller/room');
 
@@ -20,6 +21,9 @@ router.post('/', helper.isAuth, (req, res) => {
 
   Room.newRoom(roomName)
     .then((data) => {
+      pusher.trigger('Lobby', 'new_room', {
+        room: data
+      });
       res.status(201);
       res.send(data);
     })

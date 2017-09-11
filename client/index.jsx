@@ -19,7 +19,8 @@ class App extends React.Component {
       rooms: [],
       room: 'Lobby',
       newRoom: false,
-      user: {}
+      user: {},
+      message: ''
     };
   }
 
@@ -56,18 +57,11 @@ class App extends React.Component {
     }, this);
 
     this.chatRoom.bind('new_message', (message) => {
-      console.log('hello');
       this.getRoomlistMessages();
     }, this);
 
     this.chatRoom.bind('new_room', (room) => {
-      let rooms;
-      if (this.state.rooms[this.state.rooms.length - 2] !== room) {
-        rooms = this.state.rooms.concat(room);
-        this.setState({
-          rooms: rooms
-        });
-      }
+      this.getRoomlistMessages();
     }, this);
   }
 
@@ -150,7 +144,6 @@ class App extends React.Component {
           room: data.data.name,
           rooms: rooms
         });
-        this.getRoomlistMessages();
       })
       .catch((err) => {
         console.error(err);
@@ -163,7 +156,8 @@ class App extends React.Component {
       text: e.target.message.value
     })
       .then((data) => {
-        console.log(data);
+        document.getElementById('messageForm').reset();
+        this.getRoomlistMessages();
       })
       .catch((err) => {
         console.error(err);
@@ -185,8 +179,8 @@ class App extends React.Component {
           <div className="popup">
             <div className="card">
               <div className="heading">New Room</div>
-              <form onSubmit={this.newRoom.bind(this)}>
-                <input className="newRoom" id="name"/>
+              <form className="roomForm" onSubmit={this.newRoom.bind(this)}>
+                <input className="newRoom" id="name" placeholder="New Room Name"/>
                 <input type="submit" value="Submit"/>
               </form>
             </div>
@@ -198,10 +192,16 @@ class App extends React.Component {
     return (
       <div>
         { authorized() }
-        <h3>Users Online</h3>
-        <Userlist users={this.state.users} />
-        <h3>Chat</h3>
-        <Chatlist messages={this.state.messages} handleNewMessage={this.newMessage.bind(this)} />
+        <div className="app">
+          <div className="userlist">
+            <h3>Users Online</h3>
+            <Userlist users={this.state.users} />
+          </div>
+          <div className="chat">
+            <h3 className="chatTitle">Chat</h3>
+            <Chatlist messages={this.state.messages} message={this.state.message} handleNewMessage={this.newMessage.bind(this)} />
+          </div>
+        </div>
         { popup() }
       </div>
     );
