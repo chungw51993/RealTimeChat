@@ -6,7 +6,6 @@ module.exports = function(passport) {
     passReqToCallback: true
   },
   function(req, username, password, done) {
-    console.log(req.body);
     process.nextTick(function() {
       User.findUserByUsername(username)
         .then(user => {

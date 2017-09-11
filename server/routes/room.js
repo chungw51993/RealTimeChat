@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const helper = require('../helper');
 
 const Room = require('../db/controller/room');
 
-router.get('/', (req, res) => {
+router.get('/', helper.isAuth, (req, res) => {
   Room.getRooms()
     .then((data) => {
       res.status(200);
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', helper.isAuth, (req, res) => {
   const roomName = req.body.name;
 
   Room.newRoom(roomName)

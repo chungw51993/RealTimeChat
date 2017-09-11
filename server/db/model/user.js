@@ -15,20 +15,20 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {
     hooks: {
-      beforeCreate: (user, option, done) => {
+      beforeCreate: (user, option) => {
         bcrypt.hash(user.password, 10)
           .then((hash) => {
             user.password = hash;
-            return done(null, user);
+            user.save();
           })
           .catch((err) => {
-            console.error(error);
+            console.error(err);
           });
       }
     },
     instanceMethods: {
-      comparePassword: (password) => {
-        return bcrypt.compare(password, this.password);
+      comparePassword: function(attemptPassword, password) {
+        return bcrypt.compare(attemptPassword, password);
       }
     }
   });

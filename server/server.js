@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 require('./passport/init')(passport);
 
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 const user = require('./routes/user')(passport);
 const room = require('./routes/room');

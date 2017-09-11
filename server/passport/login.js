@@ -6,14 +6,12 @@ module.exports = function(passport) {
     passReqToCallback: true
   },
   function(req, username, password, done) {
-    console.log(req.body);
-    User.findUser(username)
+    User.findUserByUsername(username)
       .then((user) => {
         if (!user) {
           return done(null, false);
         }
-
-        return user.comparePassword(password)
+        return user._modelOptions.instanceMethods.comparePassword(password, user.password)
           .then(match => {
             if (match) {
               done(null, user);
